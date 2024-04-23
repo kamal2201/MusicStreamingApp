@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %} Profile {% endblock %}
+
+{% block content %}
+<style>
+
+    .container {
+        max-width: 1200px;
+        margin-top: 50px;
+    }
+
+    h2, h3 {
+        color: black;
+        font-size: 1.5rem;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .album-tiles {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        margin-top: 20px;
+    }
+
+    .album-tile {
+        width: 200px;
+        margin: 15px;
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease-in-out;
+        text-decoration: none;
+        flex: 0 0 calc(25% - 30px); /* Adjust this value for responsiveness */
+    }
+
+    .album-tile:hover {
+        transform: scale(1.05);
+        text-decoration: none;
+
+    }
+
+    .album-image {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .album-info {
+        padding: 15px;
+        text-decoration: none;
+    }
+
+    .album-title {
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+        color: black;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .album-artist {
+        font-size: 1rem;
+        color: black;
+        text-align: center;
+        text-decoration: none;
+    }
+</style>
+
+<h2>Welcome, {{ current_user.username }}</h2>
+<h3>Albums</h3>
+
+<div class="container">
+    <div class="album-tiles">
+        {% if albums %}
+            {% for album in albums %}
+                <div class="album-tile">
+                    <a class="album-info" href="{{ url_for('album_songs', album_id=album.id) }}">
+                        <div class="album-title">{{ album.title }}</div>
+                        <div class="album-artist">{{ album.genre }}</div>
+                    </a>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+{% if current_user.role == 'user' %}
+    <div class="container">
+        {% if current_user.role == 'user' %}
+            <form method="POST" action="{{ url_for('register_as_creator') }}">
+                <div>
+                    <button type="submit" class="btn btn-lg btn-block btn-success">Register as Creator</button>
+                </div>
+            </form>
+        {% endif %}
+    </div>
+{% endif %}
+
+{% endblock %}

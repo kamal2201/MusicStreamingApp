@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+
+{% block title %}Album Songs{% endblock %}
+
+{% block content %}
+    <style>
+        body {
+            background-image: url('static/math-rblqmwB7kKk-unsplash.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: black; /* Text color */
+        }
+
+        h1 {
+            color: black; /* Header text color */
+            text-align: center;
+        }
+
+        /* Music table styles */
+        .music-table {
+            width: 100%;
+            background-color: rgba(52, 58, 64, 0.7); /* Slightly transparent dark background color for the table */
+            color: #ffffff; /* Text color */
+            border-collapse: collapse; /* Collapse table borders */
+            margin-top: 20px; /* Add some top margin */
+        }
+
+        .music-table th, .music-table td {
+            border: 1px solid #454d55; /* Table border color */
+            padding: 10px; /* Add padding to cells */
+            text-align: left; /* Align text to the left */
+        }
+
+        /* Audio link styles */
+        .audio-link {
+            color: #3498db; /* Link color */
+            text-decoration: none; /* Remove default underline */
+            cursor: pointer; /* Show pointer cursor on hover */
+            transition: color 0.3s; /* Smooth color transition on hover */
+        }
+
+        /* Hover effect on audio links */
+        .audio-link:hover {
+            color: #ffffff; /* Hovered link color */
+        }
+
+        /* No audio message styles */
+        .no-audio-message {
+            color: #d9534f; /* Red color for the no audio message */
+            font-style: italic; /* Italicize the message */
+            margin: 0; /* Remove margin */
+        }
+
+        /* Currently Playing Section styles */
+        #currentlyPlaying {
+            display: none; /* Initially hide the currently playing section */
+            text-align: center; /* Center align the content */
+            background-color: rgba(52, 58, 64, 0.8); /* Slightly transparent dark background color */
+            color: #ffffff; /* Text color */
+            padding: 10px; /* Add padding to the section */
+            position: fixed; /* Fixed position at the bottom of the viewport */
+            bottom: 0; /* Stick to the bottom */
+            left: 0; /* Align to the left */
+            width: 100%; /* Full width */
+            box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.2); /* Add a shadow at the bottom */
+        }
+
+        .btn-container {
+            margin-top: 20px; /* Add some space above the button container */
+        }
+
+        #currentlyPlaying h2 {
+            margin: 0; /* Remove margin from h2 element */
+        }
+
+        /* Audio controls styles */
+        .audio-controls {
+            margin-top: 10px; /* Add margin above the audio controls */
+        }
+    </style>
+
+    <body>
+        <h1>{{ album.title }} Songs</h1>
+
+        <div class="container">
+            <table class="music-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Artist</th>
+                        <th>Genre</th>
+                        <th>Audio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for song in songs %}
+                        <tr class="song-row">
+                            <td>{{ song.title }}</td>
+                            <td>{{ song.artist_name }}</td>
+                            <td>{{ song.genre }}</td>
+                            <td>
+                                {% if song.audio_link %}
+                                    <a href="#" class="audio-link"
+                                        data-audio="{{ url_for('static', filename=song.audio_link) }}"
+                                        onclick="
+                                        event.preventDefault();
+                                        var audioSource = this.getAttribute('data-audio');
+                                        var title = this.closest('tr').querySelector('td:nth-child(2)').innerText;
+                                        var audioPlayer = document.getElementById('audioPlayer');
+                                        var currentlyPlaying = document.getElementById('currentlyPlaying');
+                                        var audioControls = currentlyPlaying.querySelector('.audio-controls');
+                                        audioPlayer.src = audioSource;
+                                        audioPlayer.load();
+                                        audioPlayer.play();
+                                        currentlyPlaying.querySelector('h2').innerText = 'Currently Playing: ' + title;
+                                        currentlyPlaying.style.display = 'block';
+                                        audioControls.scrollIntoView({ behavior: 'smooth' });
+                                        "
+                                    >
+                                    Play
+                                    </a> | <a href="{{ url_for('lyrics', song_id=song.id) }}"
+                                        class="audio-link"
+                                        data-audio="{{ url_for('static', filename=song.audio_link) }}">
+                                    Lyrics</a>
+                                {% else %}
+                                    <p class="no-audio-message">No audio link available</p>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="btn-container">
+                <a href="{{ url_for('add_edit_album', album_id=album.id) }}" class="btn btn-primary">Add/Edit Song</a>
+            </div>
+        </div>
+
+        <div id="currentlyPlaying">
+            <h2>Currently Playing</h2>
+            <div class="audio-controls">
+                <audio controls id="audioPlayer" name="audioPlayer">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+    </body>
+{% endblock %}

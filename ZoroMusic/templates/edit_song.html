@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Song{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background-image: url('static/your-background-image.jpg'); /* Adjust the path to your background image */
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-color: #f8f9fa; /* Fallback color for the body */
+        color: #ffffff; /* Text color */
+    }
+
+    .container {
+        max-width: 600px; /* Increase the width of the container */
+        margin-top: 50px; /* Add some top margin */
+    }
+
+    h2 {
+        color: #3498db; /* Heading text color */
+        font-size: 1.8rem; /* Increase the font size of the heading */
+        text-align: center;
+    }
+
+    form {
+        padding: 20px;
+        background-color: #343a40; /* Dark background color for the form */
+        border-radius: 10px; /* Increase the border-radius */
+        box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.4); /* Add a subtle box shadow */
+    }
+
+    label {
+        display: block; /* Display labels as block elements */
+        margin-bottom: 5px; /* Add some bottom margin to labels */
+        color: #ffffff; /* Label text color */
+    }
+
+    .form-control {
+        margin-bottom: 20px; /* Add some bottom margin to form controls */
+        background-color: #2c3e50; /* Dark background color for form controls */
+        color: #ffffff; /* Text color for form controls */
+        border: 1px solid #495057; /* Form control border color */
+    }
+
+    button {
+        background-color: #3498db; /* Button background color */
+        border: none; /* Remove button border */
+        color: #ffffff; /* Button text color */
+        transition: background-color 0.3s ease; /* Smooth transition on hover */
+    }
+
+    button:hover {
+        background-color: #007bff; /* Hovered button background color */
+    }
+</style>
+
+
+<body>
+  <div class="container mt-4">
+    <h2>Edit Song</h2>
+
+    <form method="POST" action="{{ url_for('edit_song', song_id=song.id) }}" enctype="multipart/form-data">
+
+      {{ form.hidden_tag() }}
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          {{ form.title.label(class="form-control-label") }}
+          {{ form.title(class="form-control", placeholder="song.title") }}
+        </div>
+
+        <div class="form-group col-md-6">
+          {{ form.lyrics.label(class="form-control-label") }}
+          {{ form.lyrics(class="form-control", placeholder="song.lyrics") }}
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          {{ form.duration.label(class="form-control-label") }}
+          {{ form.duration(class="form-control", placeholder="song.duration") }}
+        </div>
+
+        <div class="form-group col-md-6">
+          {{ form.genre.label(class="form-control-label") }}
+          {{ form.genre(class="form-control", placeholder="song.genre") }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        {{ form.artist_name.label(class="form-control-label") }}
+        {{ form.artist_name(class="form-control", placeholder="song.artist_name") }}
+      </div>
+
+      <div class="form-group">
+        {{ form.audio_link.label(class="form-control-label") }}
+        {{ form.audio_link(class="form-control", placeholder="song.audio_link") }}
+      </div>
+
+      <button type="submit" class="btn btn-primary">Edit Song</button>
+    </form>
+  </div>
+</body>
+{% endblock %}

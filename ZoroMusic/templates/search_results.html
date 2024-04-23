@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+    <style>
+        /* Styles specific to the content block */
+        #content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        #content h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #content strong {
+            color: #333;
+        }
+
+        #content p {
+            text-align: center;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        #content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #content li {
+            background-color: #fff;
+            color: black;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #content a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #4caf50;
+            text-decoration: none;
+        }
+
+        #content a:hover {
+            text-decoration: underline;
+        }
+
+        #currentlyPlaying {
+            display: none; /* Initially hide the currently playing section */
+            text-align: center; /* Center align the content */
+            background-color: #343a40; /* Dark background color */
+            color: #ffffff; /* Text color */
+            padding: 10px; /* Add padding to the section */
+            position: fixed; /* Fixed position at the bottom of the viewport */
+            bottom: 0; /* Stick to the bottom */
+            left: 0; /* Align to the left */
+            width: 100%; /* Full width */
+            box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.2); /* Add a shadow at the bottom */
+        }
+
+        #currentlyPlaying h2 {
+            margin: 0; /* Remove margin from h2 element */
+        }
+
+        /* Audio controls styles */
+        .audio-controls {
+            margin-top: 10px; /* Add margin above the audio controls */
+        }
+    </style>
+<div id="content">
+    <h1>Search Results for "{{ query }}"</h1>
+
+    {% if results %}
+        <ul>
+            {% for result in results %}
+                <li>
+                    Title: {{ result.title }}<br>
+                    Artist: {{ result.artist_name }}<br>
+                    Genre: {{ result.genre }}
+                    {% if result.audio_link %}
+                        <a href="#" class="audio-link" data-audio="{{ url_for('static', filename=result.audio_link) }}"
+                           onclick="
+                             event.preventDefault();
+                             var audioSource = this.getAttribute('data-audio');
+                             var title = '{{ result.title }}';
+                             var audioPlayer = document.getElementById('audioPlayer');
+                             var currentlyPlaying = document.getElementById('currentlyPlaying');
+                             var audioControls = currentlyPlaying.querySelector('.audio-controls');
+                             audioPlayer.src = audioSource;
+                             audioPlayer.load();
+                             audioPlayer.play();
+                             currentlyPlaying.querySelector('h2').innerText = 'Currently Playing: ' + title;
+                             currentlyPlaying.style.display = 'block';
+                             audioControls.scrollIntoView({ behavior: 'smooth' });
+                           "
+                        >
+                            Play
+                        </a>
+                    {% else %}
+                        <p>No audio link available</p>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+    <a style="color: black;" href="{{ url_for('search') }}">Back to Search</a>
+    <br><br><br><br>
+</div>
+
+<div id="currentlyPlaying">
+    <h2>Currently Playing</h2>
+    <div class="audio-controls">
+        <audio controls id="audioPlayer" name="audioPlayer">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %} Add/Edit Album {% endblock %}
+
+{% block content %}
+
+<style>
+    body {
+        background-color: #f8f9fa; /* Dark background color for the body */
+        color: #ffffff; /* Text color */
+    }
+
+    .container {
+        max-width: 600px; /* Limit the width of the container */
+        margin-top: 50px; /* Add some top margin */
+    }
+
+    h2 {
+        color: #3498db; /* Heading text color */
+        font-size: 1.5rem; /* Adjust the font size of the heading */
+        text-align: center;
+    }
+
+    form {
+        padding: 20px;
+        background-color: #343a40; /* Dark background color for the form */
+        border-radius: 5px; /* Add some border-radius */
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2); /* Add a subtle box shadow */
+    }
+
+    label {
+        color: #ffffff; /* Label text color */
+    }
+
+    .form-control {
+        width: 100%;
+        margin-bottom: 15px; /* Add some bottom margin to form controls */
+        background-color: #2c3e50; /* Dark background color for form controls */
+        color: #ffffff; /* Text color for form controls */
+        border: 1px solid #495057; /* Form control border color */
+    }
+
+    .form-check {
+        display: flex; /* Use flex layout for the checkbox section */
+        align-items: center; /* Center align items vertically */
+        justify-content: space-between; /* Add space between items */
+        color: #ffffff; /* Text color for the checkbox section */
+        margin-bottom: 10px; /* Add bottom margin to checkboxes */
+    }
+
+    .btn-primary {
+        background-color: #3498db; /* Primary button background color */
+        border: none; /* Remove button border */
+        color: #ffffff; /* Button text color */
+    }
+
+    .btn-primary:hover {
+        background-color: #007bff; /* Hovered button background color */
+    }
+</style>
+
+<body>
+
+<div class="container mt-4">
+    <h2>Add/Edit Album Songs</h2>
+
+    <form method="post">
+        {{ form.csrf_token }}
+        <div class="form-group">
+            <label>{{ form.songs.label }}</label>
+            {% for choice in form.songs.choices %}
+                <div class="form-check">
+                    <input type="checkbox" id="{{ form.songs.id }}_{{ loop.index }}" name="{{ form.songs.name }}" value="{{ choice[0] }}" {% if form.songs.data and choice[0] in form.songs.data %}checked{% endif %}>
+                    <label for="{{ form.songs.id }}_{{ loop.index }}">{{ choice[1] }}</label>
+                </div>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Songs</button>
+    </form>
+</div>
+
+</body>
+
+{% endblock %}

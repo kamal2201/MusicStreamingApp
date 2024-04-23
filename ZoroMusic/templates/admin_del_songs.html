@@ -1,0 +1,129 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}
+    Admin del songs
+{% endblock %}
+
+{% block content %}
+    <style>
+    h1 {
+        color: #3498db; /* Header text color */
+        text-align: center;
+    }
+
+    /* Music table styles */
+    .music-table {
+        width: 100%;
+        background-color: #343a40; /* Dark background color for the table */
+        color: #ffffff; /* Text color */
+        border-collapse: collapse; /* Collapse table borders */
+    }
+
+    .music-table th, .music-table td {
+        border: 1px solid #454d55; /* Table border color */
+        padding: 10px; /* Add padding to cells */
+        text-align: left; /* Align text to the left */
+    }
+
+    /* Alternating row colors for better readability */
+    .music-table tbody tr:nth-child(even) {
+        background-color: #394851;
+    }
+
+    /* Song poster styles */
+    .song-poster {
+        max-width: 100px; /* Limit the width of the poster image */
+        height: auto; /* Maintain aspect ratio */
+    }
+
+    /* Song info styles */
+    .song-info {
+        margin-left: 10px; /* Add some margin to the song info */
+    }
+
+    .song-info h3 {
+        margin: 0; /* Remove margin from h3 element */
+    }
+
+    /* Audio link styles */
+    .audio-link {
+        color: #3498db; /* Link color */
+        text-decoration: none; /* Remove default underline */
+        cursor: pointer; /* Show pointer cursor on hover */
+        transition: color 0.3s; /* Smooth color transition on hover */
+    }
+
+    /* Hover effect on audio links */
+    .audio-link:hover {
+        color: #ffffff; /* Hovered link color */
+    }
+
+    /* No audio message styles */
+    .no-audio-message {
+        color: #d9534f; /* Red color for the no audio message */
+        font-style: italic; /* Italicize the message */
+        margin: 0; /* Remove margin */
+    }
+
+    /* Currently Playing Section styles */
+    #currentlyPlaying {
+        display: none; /* Initially hide the currently playing section */
+        text-align: center; /* Center align the content */
+        background-color: #343a40; /* Dark background color */
+        color: #ffffff; /* Text color */
+        padding: 10px; /* Add padding to the section */
+        position: fixed; /* Fixed position at the bottom of the viewport */
+        bottom: 0; /* Stick to the bottom */
+        left: 0; /* Align to the left */
+        width: 100%; /* Full width */
+        box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.2); /* Add a shadow at the bottom */
+    }
+
+    #currentlyPlaying h2 {
+        margin: 0; /* Remove margin from h2 element */
+    }
+
+    /* Audio controls styles */
+    .audio-controls {
+        margin-top: 10px; /* Add margin above the audio controls */
+    }
+    .dislike-button {
+      background-color: orange; /* Green */
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .dislike-button:hover {
+        background-color: #45a049;
+    }
+    </style>
+<div class="container">
+   <table class="music-table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Artist</th>
+            <th>Genre</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for song in deleted_songs %}
+            <tr class="song-row">
+                <td>
+                    {{ song.title }}
+                </td>
+                <td>
+                    {{ song.artist }}
+                </td>
+                <td>
+                    {{ song.genre }}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+   </table>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Lyrics{% endblock %}
+
+{% block content %}
+    <style>
+
+        h3 {
+            color: black; /* Heading text color */
+            font-size: 1.5rem; /* Adjust the font size of the heading */
+            text-align: center; /* Center align the heading */
+            margin-bottom: 20px; /* Add bottom margin to the heading */
+        }
+
+        p {
+            color: black;
+            white-space: pre-line; /* Preserve whitespace and break lines */
+            font-size: 1rem; /* Adjust the font size of the lyrics */
+            text-align: center;
+        }
+    </style>
+<body>
+    <div class="container">
+    <h3 style="color: black;">Lyrics : {{ song.title }}</h3>
+    <p> {{ song.lyrics }}</p>
+    </div>
+</body>
+{% endblock %}

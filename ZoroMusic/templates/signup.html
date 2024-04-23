@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Signup Page
+{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #f8f9fa; /* Light background color for the body */
+        color: #495057; /* Text color */
+    }
+
+    .container {
+        max-width: 400px; /* Limit the width of the container */
+        margin-top: 50px; /* Add some top margin */
+    }
+
+    .form-signup {
+        padding: 20px;
+        border-radius: 5px; /* Add some border-radius */
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2); /* Add a subtle box shadow */
+    }
+
+    h1 {
+        color: #3498db; /* Heading text color */
+        font-size: 1.5rem; /* Adjust the font size of the heading */
+    }
+
+    form {
+        margin-bottom: 20px; /* Add some bottom margin to the form */
+    }
+
+    label {
+        display: block; /* Display labels as block elements */
+        margin-bottom: 5px; /* Add some bottom margin to labels */
+        color: #ffffff; /* Label text color */
+    }
+
+    .form-control {
+        margin-bottom: 15px; /* Add some bottom margin to form controls */
+        background-color: #2c3e50; /* Dark background color for form controls */
+        color: #ffffff; /* Text color for form controls */
+        border: 1px solid #495057; /* Form control border color */
+    }
+
+    .checkbox {
+        display: flex; /* Use flex layout for the checkbox section */
+        align-items: center; /* Center align items vertically */
+        justify-content: space-between; /* Add space between items */
+        color: #ffffff; /* Text color for the checkbox section */
+    }
+
+    .btn-secondary {
+        color: #ffffff; /* Button text color */
+        background-color: #6c757d; /* Button background color */
+        border: none; /* Remove button border */
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268; /* Hovered button background color */
+    }
+
+    .btn-primary {
+        background-color: #3498db; /* Primary button background color */
+        border: none; /* Remove button border */
+    }
+
+    .btn-primary:hover {
+        background-color: #007bff; /* Hovered button background color */
+    }
+</style>
+
+<body class="text-center">
+    <div class="container">
+        <form method = "POST" class = "form-signup" style = "color:white">
+            {{ form.hidden_tag() }}
+            <h1 class="h3 mb-3 font-weight-normal">
+                Please Create your Account
+            </h1>
+            <br>
+            {{ form.username.label() }}
+            {{ form.username(class="form-control", placeholder="User Name") }}
+
+            {{ form.role.label() }}
+            {{ form.role(class="form-control", placeholder="Role") }}
+
+            {{ form.pwd1.label() }}
+            {{ form.pwd1(class="form-control", placeholder="Password") }}
+
+            {{ form.pwd2.label() }}
+            {{ form.pwd2(class="form-control", placeholder="Confirm Password") }}
+
+            <br>
+            <div class="checkbox mb-3">
+                <h5>Already have an account?</h5>
+                <a class="btn btn-sm btn-secondary" href="{{url_for('login_page')}}">Login</a>
+            </div>
+            {{ form.submit(class="btn btn-lg btn-block btn-primary")}}
+
+        </form>
+    </div>
+</body>
+{% endblock %}

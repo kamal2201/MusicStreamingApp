@@ -1,0 +1,183 @@
+<!-- playlists.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <style>
+
+    h1 {
+        color: black; /* Header text color */
+        text-align: center; /* Center align the heading */
+    }
+
+    .mt-4 {
+        margin-top: 20px; /* Add some top margin to the container */
+    }
+
+    h4 {
+        color: black; /* Text color for playlist name */
+        margin-bottom: 5px; /* Add some bottom margin to the playlist name */
+    }
+
+    p {
+        color: black; /* Text color for additional information */
+        margin: 0; /* Remove default margin */
+    }
+
+    .playlist-table {
+        width: 100%;
+        background-color: rgba(52, 58, 64, 0.7);
+        color: #ffffff; /* Text color */
+        border-collapse: collapse; /* Collapse table borders */
+        margin-top: 10px; /* Add some top margin to the table */
+    }
+
+    .playlist-table th,
+    .playlist-table td {
+        border: 1px solid #454d55; /* Table border color */
+        padding: 10px; /* Add padding to cells */
+        text-align: left; /* Align text to the left */
+    }
+
+
+    .song-poster {
+        max-width: 100px; /* Limit the width of the poster image */
+        height: auto; /* Maintain aspect ratio */
+    }
+
+    .audio-link {
+        color: #3498db; /* Link color */
+        text-decoration: none; /* Remove default underline */
+        cursor: pointer; /* Show pointer cursor on hover */
+        transition: color 0.3s; /* Smooth color transition on hover */
+    }
+
+    .audio-link:hover {
+        color: #ffffff; /* Hovered link color */
+    }
+
+    .no-audio-message {
+        color: #d9534f; /* Red color for the no audio message */
+        font-style: italic; /* Italicize the message */
+        margin: 0; /* Remove margin */
+    }
+
+    #currentlyPlaying {
+        display: none; /* Initially hide the currently playing section */
+        text-align: center; /* Center align the content */
+        background-color: #343a40; /* Dark background color */
+        color: #ffffff; /* Text color */
+        padding: 10px; /* Add padding to the section */
+        position: fixed; /* Fixed position at the bottom of the viewport */
+        bottom: 0; /* Stick to the bottom */
+        left: 0; /* Align to the left */
+        width: 100%; /* Full width */
+        box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.2); /* Add a shadow at the bottom */
+    }
+
+    #currentlyPlaying h2 {
+        margin: 0; /* Remove margin from h2 element */
+    }
+
+    .audio-controls {
+        margin-top: 10px; /* Add margin above the audio controls */
+    }
+
+    .playlist-actions {
+        margin-top: 10px; /* Add margin above the playlist actions */
+    }
+
+    .btn-warning,
+    .btn-danger,
+    .btn-primary {
+        margin-right: 5px; /* Add some right margin to the buttons for spacing */
+    }
+</style>
+
+
+  <h1>Your Playlists</h1>
+
+  {% if playlists %}
+    {% for playlist in playlists %}
+      <div class="mt-4">
+        <h4 style="color: black;">Name: {{ playlist.name }}</h4>
+        <p style="color: black;">Created by: {{ playlist.user.username }}</p>
+        <table class="playlist-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Artist</th>
+              <th>Genre</th>
+              <th>Audio</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for song in playlist.songs %}
+              <tr class="song-row" data-audio="{{ song.audio_link }}">
+                <td>{{ song.title }}</td>
+                <td>{{ song.artist_name }}</td>
+                <td>{{ song.genre }}</td>
+                <td>
+                  {% if song.audio_link %}
+                    <a href="#" class="audio-link" data-audio="{{ url_for('static', filename=song.audio_link) }}"
+                       onclick="
+                         event.preventDefault();
+                         var audioSource = this.getAttribute('data-audio');
+                         var title = this.closest('tr').querySelector('td:nth-child(2)').innerText;
+                         var audioPlayer = document.getElementById('audioPlayer');
+                         var currentlyPlaying = document.getElementById('currentlyPlaying');
+                         var audioControls = currentlyPlaying.querySelector('.audio-controls');
+                         audioPlayer.src = audioSource;
+                         audioPlayer.load();
+                         audioPlayer.play();
+                         currentlyPlaying.querySelector('h2').innerText = 'Currently Playing: ' + title;
+                         currentlyPlaying.style.display = 'block';
+                         audioControls.scrollIntoView({ behavior: 'smooth' });
+                       "
+                    >
+                      Play
+                    </a>
+                  {% else %}
+                    <p class="no-audio-message">No audio link available</p>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <div class="playlist-actions">
+          <form method="post" action="{{ url_for('modify_playlist', playlist_id=playlist.id) }}" class="d-inline">
+            <button type="submit" class="btn btn-warning">Edit Playlist</button>
+          </form>
+
+          <form method="post" action="{{ url_for('delete_playlist', playlist_id=playlist.id) }}" class="d-inline">
+            <button type="submit" class="btn btn-danger">Delete Playlist</button>
+          </form>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p class="mt-3" style="text-align:center;">Nope you don't have any...Create a new one...</p>
+  {% endif %}
+
+  <!-- Currently Playing Section -->
+  <div id="currentlyPlaying">
+    <h2>Currently Playing</h2>
+    <div class="audio-controls">
+      <audio controls id="audioPlayer" name="audioPlayer">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+  </div>
+
+  <div class="text-center mt-4">
+    <a href="{{ url_for('create_playlist') }}" class="btn btn-primary">Create New Playlist</a>
+  </div>
+
+{% endblock %}
+
+
+
+
+
+

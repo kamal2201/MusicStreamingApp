@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}Creator Dashboard{% endblock %}
+
+{% block content %}
+  <h2 style="color: black; text-align:center;">My Songs</h2>
+
+  <style>
+    /* Table styles */
+    .table {
+        background-color: rgba(52, 58, 64, 0.7);
+        color: #ffffff; /* Text color */
+    }
+
+    .table th, .table td {
+        border-color: #454d55; /* Table border color */
+    }
+
+
+    /* Link styles within the table */
+    .table a {
+        color: #3498db; /* Link color */
+        text-decoration: none; /* Remove default underline */
+        transition: color 0.3s; /* Smooth color transition on hover */
+    }
+
+    /* Hover effect on links within the table */
+    .table a:hover {
+        color: #ffffff; /* Hovered link color */
+    }
+
+    /* Button container styles */
+    .btn-container {
+        margin-top: 20px; /* Add some space above the button container */
+    }
+
+    /* Button styles */
+    .btn {
+        background-color: #3498db; /* Button background color */
+        color: #ffffff; /* Button text color */
+        border: none; /* Remove button border */
+        padding: 10px 20px; /* Add padding to the button */
+        text-decoration: none; /* Remove default underline */
+        display: inline-block; /* Make the button a block element */
+        font-size: 1rem; /* Button text size */
+        transition: background-color 0.3s; /* Smooth background color transition on hover */
+    }
+
+    /* Hover effect on buttons */
+    .btn:hover {
+        background-color: #007bff; /* Hovered button background color */
+    }
+</style>
+
+
+  <div class="container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Artist</th>
+          <th>Genre</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for song in songs %}
+          <tr>
+            <td><strong style="color: white;">{{ song.title }}</strong></td>
+            <td style="color: white;">{{ song.artist_name }}</td>
+            <td style="color: white;">{{ song.genre }}</td>
+            <td>
+              <a href="{{ url_for('edit_song', song_id=song.id) }}">Edit</a> |
+              <a href="{{ url_for('delete_song', song_id=song.id) }}">Delete</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% if current_user.is_flagged == 0 %}
+    <div class="btn-container">
+      <a href="{{ url_for('add_song') }}" class="btn btn-primary">Add New Song</a>
+      <a href="{{ url_for('add_album') }}" class="btn btn-primary">Add New Album</a>
+    </div>
+    {% else %}
+      <div class="btn-container">
+        Sorry, you cannot add new songs or albums because you are a blacklisted creator.
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+

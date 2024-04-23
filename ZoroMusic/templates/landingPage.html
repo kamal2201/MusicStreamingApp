@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Home Page
+{% endblock %}
+
+
+{% block content %}
+<style>
+    body, .container {
+        color: black; /* Text color */
+        border-radius: 1%;
+        box-shadow: 0px 0px 0xp 10px 0px rgba(0,0,0,0.2);
+    }
+
+    .container {
+        max-width: 600px; /* Limit the width of the container */
+        margin-top: 50px; /* Add some top margin */
+        text-align: center; /* Center align text within the container */
+    }
+
+    h1, h3 {
+        color: black; /* Header text color */
+        font-size: 2rem; /* Adjust the font size of the heading */
+    }
+
+    p.lead {
+        font-size: 1.2rem; /* Adjust the font size of the lead paragraph */
+        line-height: 1.6; /* Set the line height for better readability */
+        margin-top: 20px; /* Add some top margin to the lead paragraph */
+    }
+
+    a {
+        text-decoration: None;
+    }
+</style>
+    <body class="text-center">
+    <div class="container">
+        <h1 class="h3 mb-3 font-weight-normal">
+            Unleash the Power of Sound
+        </h1>
+        <p class="lead">
+            Dive into a world where melodies paint emotions, rhythms dance through the soul, and every beat tells a story. Discover the magic of music – where every note is a journey, and every tune is a symphony of emotions.
+        </p>
+        <br><br><br>
+        {% if current_user.is_authenticated %}
+
+        {% else %}
+        <p class="lead">
+            If you're an admin? <a href="{{ url_for('admin_login') }}">Login Here</a>
+        </p>
+        {% endif %}
+
+    </div>
+    </body>
+
+{% endblock %}

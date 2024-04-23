@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %} Add Album {% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background-image: url('static/math-rblqmwB7kKk-unsplash.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-color: #f8f9fa; /* Fallback color for the body */
+        color: #ffffff; /* Text color */
+    }
+
+    .container {
+        max-width: 600px; /* Increase the width of the container */
+        margin-top: 50px;
+    }
+
+    h2 {
+        color: black; /* Heading text color */
+        font-size: 1.8rem; /* Increase the font size of the heading */
+        text-align: center;
+    }
+
+    form {
+        padding: 20px;
+        background-color: rgba(52, 58, 64, 0.9); /* Dark background color for the form with opacity */
+        border-radius: 10px; /* Increase the border-radius */
+        box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.4); /* Add a subtle box shadow */
+    }
+
+    label {
+        display: block;
+        margin-bottom: 10px; /* Increase the bottom margin for labels */
+        color: #ffffff;
+    }
+
+    .form-control {
+        margin-bottom: 20px; /* Increase the bottom margin for form controls */
+        background-color: rgba(44, 62, 80, 0.8); /* Dark background color for form controls with opacity */
+        color: #ffffff;
+        border: 1px solid #495057;
+    }
+
+    button {
+        background-color: #3498db;
+        border: none;
+        color: #ffffff;
+        transition: background-color 0.3s ease; /* Smooth transition on hover */
+    }
+
+    button:hover {
+        background-color: #007bff;
+    }
+</style>
+<div class="container mt-4">
+    <h2>Create Album</h2>
+
+    <form method="post" enctype="multipart/form-data">
+      {{ form.csrf_token }}
+      <div class="form-group">
+        <label for="{{ form.title.id }}">{{ form.title.label }}</label>
+        {{ form.title(class="form-control") }}
+      </div>
+
+      <div class="form-group">
+        <label for="{{ form.description.id }}">{{ form.description.label }}</label>
+        {{ form.description(class="form-control") }}
+      </div>
+
+      <div class="form-group">
+        <label for="{{ form.genre.id }}">{{ form.genre.label }}</label>
+        {{ form.genre(class="form-control") }}
+      </div>
+
+      <div class="form-group">
+        <label>{{ form.songs.label }}</label>
+        {% for choice in form.songs.choices %}
+          <div class="form-check">
+            <input type="checkbox" id="{{ form.songs.id }}_{{ loop.index }}" name="{{ form.songs.name }}" value="{{ choice[0] }}" {% if form.songs.data and choice[0] in form.songs.data %}checked{% endif %}>
+            <label for="{{ form.songs.id }}_{{ loop.index }}">{{ choice[1] }}</label>
+          </div>
+        {% endfor %}
+      </div>
+
+      <button type="submit" class="btn btn-primary">Create Album</button>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Admin Login
+{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background-image: url('static/math-rblqmwB7kKk-unsplash.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        color: #495057; /* Text color */
+    }
+
+    .container {
+        max-width: 400px; /* Limit the width of the container */
+        margin-top: 50px; /* Add some top margin */
+    }
+
+    .form-login {
+        padding: 20px;
+        border-radius: 5px; /* Add some border-radius */
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2); /* Add a subtle box shadow */
+    }
+
+    h1, p {
+        color: #3498db; /* Heading text color */
+        font-size: 1.5rem; /* Adjust the font size of the heading */
+    }
+
+    form {
+        margin-bottom: 20px; /* Add some bottom margin to the form */
+        box-shadow: 0px 0xp 10px 0px rgba(0,0,0,0.4);
+    }
+
+    label {
+        display: block; /* Display labels as block elements */
+        margin-bottom: 5px; /* Add some bottom margin to labels */
+        color: #ffffff; /* Label text color */
+    }
+
+    .form-control {
+        margin-bottom: 15px; /* Add some bottom margin to form controls */
+        background-color: #2c3e50; /* Dark background color for form controls */
+        color: #ffffff; /* Text color for form controls */
+        border: 1px solid #495057; /* Form control border color */
+    }
+
+    a, a:hover {
+        text-decoration: none;
+    }
+
+    .checkbox {
+        display: flex; /* Use flex layout for the checkbox section */
+        align-items: center; /* Center align items vertically */
+        justify-content: space-between; /* Add space between items */
+        color: #ffffff; /* Text color for the checkbox section */
+    }
+
+    .btn-secondary {
+        color: #ffffff; /* Button text color */
+        background-color: #6c757d; /* Button background color */
+        border: none; /* Remove button border */
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268; /* Hovered button background color */
+    }
+
+    .btn-primary {
+        background-color: #3498db; /* Primary button background color */
+        border: none; /* Remove button border */
+    }
+
+    .btn-primary:hover {
+        background-color: #007bff; /* Hovered button background color */
+    }
+</style>
+
+<body class="text-center">
+    <div class="container">
+        <form method = "POST" class = "form-login" style = "color:white">
+            {{ form.hidden_tag() }}
+            <h1 class="h3 mb-3 font-weight-normal">
+                Admin Login
+            </h1>
+            <br>
+            {{ form.username.label() }}
+            {{ form.username(class="form-control", placeholder=" Admin username") }}
+
+
+            {{ form.password.label() }}
+            {{ form.password(class="form-control", placeholder="Admin password") }}
+
+            <br>
+
+            {{ form.submit(class="btn btn-lg btn-block btn-primary")}}
+        </form>
+        <br><br>
+    </div>
+</body>
+{% endblock %}
